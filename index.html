@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #2DD4BF;
+            --primary-dark: #0D9488;
+            --background: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --text-light: #64748B;
+            --error: #EF4444;
+            --success: #10B981;
+            --border: #E2E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--card);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-top: -4rem;
+            position: relative;
+        }
+
+        .input-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.1);
+        }
+
+        .unit {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .info-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .info-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        /* BMI Table */
+        .bmi-table {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        .bmi-table th,
+        .bmi-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bmi-table th {
+            background: #F8FAFC;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text);
+            color: white;
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--border);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--card);
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .burger {
+                display: block;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .calculator {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">HealthIMC</a>
+            <div class="nav-links">
+                <a href="#calculateur">Calculateur</a>
+                <a href="#apropos">À propos</a>
+                <a href="#conseil">Conseils</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="burger" onclick="toggleMenu()">☰</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Calculez votre IMC</h1>
+        <p>Un outil simple et précis pour suivre votre indice de masse corporelle et comprendre votre santé</p>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="section" id="calculateur">
+        <div class="container">
+            <div class="calculator">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="height">Votre taille</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="height" placeholder="Entrez votre taille" step="0.1" min="1" max="300">
+                            <span class="unit">cm</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="weight">Votre poids</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="weight" placeholder="Entrez votre poids" step="0.1" min="1" max="500">
+                            <span class="unit">kg</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="calculateBMI()">Calculer mon IMC</button>
+                <div id="result" class="result"></div>
+                <table class="bmi-table">
+                    <thead>
+                        <tr>
+                            <th>IMC</th>
+                            <th>Interprétation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="row1">
+                            <td>Moins de 18,5</td>
+                            <td>Insuffisance pondérale</td>
+                        </tr>
+                        <tr id="row2">
+                            <td>18,5 à 25</td>
+                            <td>Corpulence normale</td>
+                        </tr>
+                        <tr id="row3">
+                            <td>25 à 30</td>
+                            <td>Surpoids</td>
+                        </tr>
+                        <tr id="row4">
+                            <td>30 à 35</td>
+                            <td>Obésité modérée</td>
+                        </tr>
+                        <tr id="row5">
+                            <td>35 à 40</td>
+                            <td>Obésité sévère</td>
+                        </tr>
+                        <tr id="row6">
+                            <td>Plus de 40</td>
+                            <td>Obésité morbide</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Qu'est-ce que l'IMC ?</h3>
+                    <p>L'Indice de Masse Corporelle (IMC) est une mesure qui permet d'évaluer la corpulence d'une personne. Il est calculé en divisant le poids par le carré de la taille.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Limitations</h3>
+                    <p>L'IMC ne prend pas en compte la répartition de la masse grasse, la masse musculaire ou la morphologie. Il doit être interprété avec précaution pour certaines populations.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Conseils Santé</h3>
+                    <p>Une alimentation équilibrée et une activité physique régulière sont essentielles pour maintenir un IMC sain. Consultez un professionnel de santé pour des conseils personnalisés.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <h4>HealthIMC</h4>
+                <p>Votre outil de suivi santé</p>
+            </div>
+            <div>
+                <h4>Liens utiles</h4>
+                <ul class="footer-links">
+                    <li><a href="#calculateur">Calculateur</a></li>
+                    <li><a href="#apropos">À propos</a></li>
+                    <li><a href="#conseil">Conseils</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li>Email: contact@healthimc.fr</li>
+                    <li>Téléphone: 01 23 45 67 89</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const resultDiv = document.getElementById('result');
+
+            // Reset previous highlights
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`row${i}`).classList.remove('highlight');
+            }
+
+            if (!height || !weight || height <= 0 || weight <= 0) {
+                resultDiv.style.display = 'block';
+                resultDiv.style.backgroundColor = '#FEF2F2';
+                resultDiv.style.border = '1px solid #FCA5A5';
+                resultDiv.style.color = var(--error);
+                resultDiv.innerHTML = '<strong>Attention :</strong><br>Veuillez entrer des valeurs valides pour la taille et le poids.';
+                return;
+            }
+
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            const roundedBMI = Math.round(bmi * 10) / 10;
+
+            let category;
+            let rowToHighlight;
+
+            if (bmi < 18.5) {
+                category = "Insuffisance pondérale";
+                rowToHighlight = "row1";
+            } else if (bmi < 25) {
+                category = "Corpulence normale";
+                rowToHighlight
